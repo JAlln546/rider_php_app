@@ -1,0 +1,164 @@
+<?php include 'header.php'; ?>
+        <h3>
+            Add New Term:
+        </h3>
+    <?php
+        if(!isset($_POST['submit1'])) {
+    ?>
+    <form method="post" action="" enctype="multipart/form-data">
+        <p><label>
+            Pick a Category:</label>&nbsp;
+
+            <select name="category">
+                <option value="select" disabled selected>[ Select ]</option>
+                <option value="wine">Wine</option>
+                <option value="beer">Beer</option>
+                <option value="liquor">Liquor</option>
+                <option value="cocktails">Cocktails</option>
+                <option value="food">Food</option>
+            </select>&nbsp;
+            <input type="submit" name="submit1" value=">"></p>
+            </form>
+            <?php
+          } else {
+            function getItemType() {
+
+            }
+            $termCategory = $_POST['category'];
+
+            return $termCategory;
+
+          }
+
+
+            $termCategory = strtoupper($_POST['category']);
+
+            if($termCategory == 'wine') {
+              ?>
+              <form method="post" action="" enctype="multipart/form-data">
+              <p><label>
+                  Sub Category:</label>&nbsp;
+
+                  <select name="subCat">
+                      <option value="select" disabled selected>[ Select ]</option>
+                      <option value="red">Red</option>
+                      <option value="white">White</option>
+                      <option value="rose">Rose</option>
+                      <option value="sparkling">Sparkling</option>
+                  </select></p>
+
+              <?php
+            } elseif ($termCategory == 'beer') {
+              ?>
+              <form method="post" action="" enctype="multipart/form-data">
+              <p><label>
+                  Sub Category:</label>&nbsp;
+
+                  <select name="subCat">
+                      <option value="select" disabled selected>[ Select ]</option>
+                      <option value="red">Ale</option>
+                      <option value="white">Lager</option>
+                  </select></p>
+
+              <?php
+            } elseif ($termCategory == 'liquor') {
+              ?>
+              <form method="post" action="" enctype="multipart/form-data">
+              <p><label>
+                  Sub Category:</label>&nbsp;
+
+                  <select name="subCat">
+                      <option value="select" disabled selected>[ Select ]</option>
+                      <option value="vodka">Vodka</option>
+                      <option value="tequila">Tequila</option>
+                      <option value="gin">Gin</option>
+                      <option value="rum">Rum</option>
+                      <option value="whiskey">Whiskey</option>
+                      <option value="amaros">Amaros</option>
+                      <option value="liquors">Liquors</option>
+                  </select></p>
+
+              <?php
+            } elseif ($termCategory == 'cocktails') {
+              ?>
+              <form method="post" action="" enctype="multipart/form-data">
+              <p><label>
+                  Sub Category:</label>&nbsp;
+
+                  <select name="subCat">
+                      <option value="select" disabled selected>[ Select ]</option>
+                      <option value="red">Red</option>
+                      <option value="white">White</option>
+                      <option value="rose">Rose</option>
+                      <option value="sparkling">Sparkling</option>
+                  </select></p>
+
+              <?php
+            } elseif ($termCategory == 'food') {
+              ?>
+              <form method="post" action="" enctype="multipart/form-data">
+              <p><label>
+                  Sub Category:</label>&nbsp;
+
+                  <select multiple="multiple" name="subCat[]">
+                      <option value="select" disabled selected>[ Select ]</option>
+                      <option value="bfast">Breakfast</option>
+                      <option value="brunch">Brunch</option>
+                      <option value="lunch">Lunch</option>
+                      <option value="dinner">Dinner</option>
+                      <option value="dessert">Dessert</option>
+                      <option value="hh">Happy Hour</option>
+                  </select></p>
+
+              <?php
+            }
+            /*
+            else {
+              echo "Please Select a Category";
+            }
+            */
+             ?>
+            <p><label>Name:</label>
+            <input type="text" name="termName">
+          </p>
+          <p><label>Definition:</label>
+          <textarea name="termDef" rows="8" cols="80"></textarea>
+        </p>
+            <input type="submit" name="submit" value="Select">
+            </form>
+
+<?php
+/* } else { */
+$termSubcat = strtoupper($_POST['subCat']);
+//$termSubcat = $_POST['category'];
+$termName = ucwords($_POST['termName']);
+$termDef = ucfirst($_POST['termDef']);
+
+$query2 = $db->prepare(
+    'INSERT INTO terms (t_category, t_subcat, t_name, t_def)' .
+    'VALUES ("'.$termCategory.'", "'.$termSubcat.'", "'.$termName.'", "'.$termDef.'")'
+);
+
+$success = $query2->execute([
+    't_name' => $termName,
+    't_def' => $termDef,
+    't_category' => $termCategory,
+    't_subcat' => $termSubcat
+    ]);
+
+if ($success) {
+    echo "<h3>Success!</h3>";
+    echo "$termName has been added to $termCategory!\n";
+} else {
+    echo "Failed to add term.\n\n";
+}
+}
+
+?>
+
+<div class="createUser">
+  <p>Back to <a href="customize_dbitems.php">Database Items</a></p>
+</div>
+
+
+<?php include 'footer.php'; ?>
